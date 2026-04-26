@@ -22,6 +22,8 @@ public class GUI extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(parent);
             stage.setScene(scene);
+            stage.setTitle("陆战棋");
+            stage.setMaximized(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
