@@ -1,5 +1,7 @@
 package main.game;
 
+import main.player.Player;
+
 public class Piece {
     private final Character rank;
     private boolean canTurn = false;
@@ -10,8 +12,10 @@ public class Piece {
     private boolean bomb = false;
     private int rankVal;
     private String label = "";
+    private Player owner;
 
-    public Piece(Character rank){
+    public Piece(Character rank, Player owner) {
+        this.owner = owner;
         this.rank = rank;
         switch(rank){
             case '1':
