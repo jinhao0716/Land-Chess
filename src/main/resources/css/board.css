@@ -1,0 +1,9 @@
+.root {
+    -fx-background-color: lightblue;
+}
+.piece-button{
+    -fx-background-color: #1AA5DB;
+    -fx-text-fill: white;
+    -fx-border-color: #037AAD;
+    -fx-border-width: 2;
+}

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class GUI extends Application {
     @Override
@@ -24,6 +25,7 @@ public class GUI extends Application {
             stage.setScene(scene);
             stage.setTitle("陆战棋");
             stage.setMaximized(true);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/main/resources/css/board.css")).toExternalForm());
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

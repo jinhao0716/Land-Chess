@@ -69,6 +69,8 @@ public class Piece {
                 this.canMove = false;
                 this.label = "军旗";
                 break;
+            default:
+                throw new IllegalArgumentException("Illegal rank");
         }
     }
 
