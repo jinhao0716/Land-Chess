@@ -89,6 +89,6 @@
       </ScrollPane>
    </right>
    <padding>
-      <Insets left="150.0" />
+      <Insets left="500.0" />
    </padding>
 </BorderPane>
