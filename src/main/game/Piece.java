@@ -85,4 +85,8 @@ public class Piece {
     public int getRank(){
         return this.rankVal;
     }
+
+    public Player getOwner(){
+        return this.owner;
+    }
 }
