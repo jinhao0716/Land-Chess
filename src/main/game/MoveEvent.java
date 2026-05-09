@@ -5,19 +5,62 @@ import main.player.Player;
 public class MoveEvent {
     Board board;
     Piece piece;
-    Position position;
+    Position position1;
+    Position position2;
     Player movePlayer;
     Player recievePlayer;
     public MoveEvent(Player movePlayer, Player recievePlayer, Board board, Piece piece, Position position) {
         this.board = board;
         this.piece = piece;
-        this.position = position;
+        this.position1 = board.getLocation(piece);
+        this.position2 = position;
         this.movePlayer = movePlayer;
         this.recievePlayer = recievePlayer;
-        validateMove();
+        if(validateMove()){
+            if(board.getPiece(position.getX(), position.getY()) == null){
+                board.move(position.getX(), position.getY(), piece);
+            }else{
+                clash(piece, board.getPiece(position.getX(), position.getY()));
+            }
+        }else{
+            System.out.println("Invalid move.");
+        }
+    }
+
+    private void clash(Piece challenger, Piece challenged){
+
     }
 
     private boolean validateMove(){
+        if(!piece.isCanMove()){
+            return false;
+        }
+        if(board.mountains.contains(position2)){
+            return false;
+        }
+        if(board.headquarters.contains(position1)){
+            return false;
+        }
+        if(board.getPiece(position2.getX(), position2.getY()) != null) {
+            if (board.getPiece(position2.getX(), position2.getY()).getOwner().equals(movePlayer) || board.camps.contains(position2)) {
+                return false;
+            }
+        }
+        if(!board.oneStepMoves.get(position1).contains(position2)){
+            if(board.rails.contains(position1)){
+                if(piece.isCanTurn()){
+                    if(!board.getEngMoves(position1).contains(position2)){
+                        return false;
+                    }
+                }else{
+                    if(!board.getRailMoves(position1).contains(position2)){
+                        return false;
+                    }
+                }
+            }else{
+                return false;
+            }
+        }
         return true;
     }
 }

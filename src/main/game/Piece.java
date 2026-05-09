@@ -89,4 +89,23 @@ public class Piece {
     public Player getOwner(){
         return this.owner;
     }
+
+    public boolean isCanTurn(){
+        return this.canTurn;
+    }
+    public boolean isCanMine(){
+        return this.canMine;
+    }
+    public boolean isCanMove(){
+        return this.canMove;
+    }
+    public boolean isWinCondition(){
+        return this.winCondition;
+    }
+    public boolean isMine(){
+        return this.mine;
+    }
+    public boolean isBomb(){
+        return this.bomb;
+    }
 }

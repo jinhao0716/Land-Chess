@@ -1,8 +1,6 @@
 package main.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Board {
     private Piece[][] board;
@@ -70,11 +68,23 @@ public class Board {
         }
     };
 
-    private HashMap<Position, HashSet<Position>> oneStepMoves = new HashMap<>(){
+    public final HashSet<Position> headquarters = new HashSet<>() {
+        {
+            add(new Position(0, 1));
+            add(new Position(0, 3));
+            add(new Position(12, 1));
+            add(new Position(12, 3));
+        }
+    };
+
+    public final HashMap<Position, HashSet<Position>> oneStepMoves = new HashMap<>(){
         {
             for(int i = 0; i < 13; i++){
                 for(int j = 0; j < 5; j++){
                     HashSet<Position> set = new HashSet<>();
+                    if(headquarters.contains(new Position(i,j))){
+                        continue;
+                    }
                     if(i - 1 >= 0 && !mountains.contains(new Position(i - 1, j))){
                         set.add(new Position(i - 1, j));
                     }
@@ -112,56 +122,6 @@ public class Board {
         }
     };
 
-    private HashMap<Position, HashSet<Position>> railMoves = new HashMap<>(){
-        {
-            for (Position position1 : rails){
-                HashSet<Position> set = new HashSet<>();
-                int x = position1.getX() + 1;
-                while(true){
-                    Position temp = new Position(x,position1.getY());
-                    if(rails.contains(temp)){
-                        set.add(temp);
-                        x++;
-                    }else{
-                        break;
-                    }
-                }
-                x = position1.getX() - 1;
-                while(true){
-                    Position temp = new Position(x,position1.getY());
-                    if(rails.contains(temp)){
-                        set.add(temp);
-                        x--;
-                    }else{
-                        break;
-                    }
-                }
-                int y = position1.getY() + 1;
-                while(true){
-                    Position temp = new Position(position1.getX(),y);
-                    if(rails.contains(temp)){
-                        set.add(temp);
-                        y++;
-                    }else{
-                        break;
-                    }
-                }
-                y = position1.getY() - 1;
-                while(true){
-                    Position temp = new Position(position1.getX(),y);
-                    if(rails.contains(temp)){
-                        set.add(temp);
-                        y--;
-                    }else{
-                        break;
-                    }
-                }
-                railMoves.put(position1, set);
-            }
-        }
-    };
-
-
     public Board(){
         this.board = new Piece[13][5];
     }
@@ -177,6 +137,106 @@ public class Board {
     public void add(int x, int y, Piece piece){
         board[x][y] = piece;
         positions.put(piece, new Position(x,y));
+    }
+
+    public void move(int x, int y, Piece piece){
+        Position cur = getLocation(piece);
+        board[cur.getX()][cur.getY()] = null;
+        board[x][y] = piece;
+        positions.put(piece, new Position(x,y));
+    }
+
+    public HashSet<Position> getRailMoves(Position position){
+        HashSet<Position> set = new HashSet<>();
+        int x = position.getX() + 1;
+        while(true){
+            Position temp = new Position(x,position.getY());
+            if(rails.contains(temp) && getPiece(temp.getX(),temp.getY()) != null){
+                set.add(temp);
+                break;
+            }else if(rails.contains(temp)){
+                set.add(temp);
+                x++;
+            }else{
+                break;
+            }
+        }
+        x = position.getX() - 1;
+        while(true){
+            Position temp = new Position(x,position.getY());
+            if(rails.contains(temp) && getPiece(temp.getX(),temp.getY()) != null){
+                set.add(temp);
+                break;
+            }else if(rails.contains(temp)){
+                set.add(temp);
+                x--;
+            }else{
+                break;
+            }
+        }
+        int y = position.getY() + 1;
+        while(true){
+            Position temp = new Position(position.getX(),y);
+            if(rails.contains(temp) && getPiece(temp.getX(),temp.getY()) != null){
+                set.add(temp);
+                break;
+            }else if(rails.contains(temp)){
+                set.add(temp);
+                y++;
+            }else{
+                break;
+            }
+        }
+        y = position.getY() - 1;
+        while(true){
+            Position temp = new Position(position.getX(),y);
+            if(rails.contains(temp) && getPiece(temp.getX(),temp.getY()) != null){
+                set.add(temp);
+                break;
+            }else if(rails.contains(temp)){
+                set.add(temp);
+                y--;
+            }else{
+                break;
+            }
+        }
+        return set;
+    }
+
+    public HashSet<Position> getEngMoves(Position position) {
+        HashSet<Position> engMoves = new HashSet<>();
+        HashSet<Position> visited = new HashSet<>();
+        Queue<Position> queue = new LinkedList<>();
+
+        visited.add(position);
+        queue.add(position);
+
+        while (!queue.isEmpty()) {
+            Position current = queue.poll();
+            for (Position neighbor : getAdjHelper(current)) {
+                if (visited.contains(neighbor)) continue;
+                visited.add(neighbor);
+                engMoves.add(neighbor);
+                if (getPiece(neighbor.getX(), neighbor.getY()) == null) {
+                    queue.add(neighbor);
+                }
+            }
+        }
+        return engMoves;
+    }
+
+    private List<Position> getAdjHelper(Position position){
+        List<Position> neighbors = new ArrayList<>();
+        int x = position.getX(), y = position.getY();
+        if (x - 1 >= 0 && rails.contains(new Position(x - 1, y)))
+            neighbors.add(new Position(x - 1, y));
+        if (x + 1 < 13 && rails.contains(new Position(x + 1, y)))
+            neighbors.add(new Position(x + 1, y));
+        if (y - 1 >= 0 && rails.contains(new Position(x, y - 1)))
+            neighbors.add(new Position(x, y - 1));
+        if (y + 1 < 5 && rails.contains(new Position(x, y + 1)))
+            neighbors.add(new Position(x, y + 1));
+        return neighbors;
     }
 
     @Override
