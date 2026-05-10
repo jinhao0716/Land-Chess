@@ -2,9 +2,9 @@ package main.game;
 
 import java.util.*;
 
-public class Board {
-    private Piece[][] board;
-    private HashMap<Piece, Position> positions = new HashMap<>();
+public class Board{
+    private final Piece[][] board;
+    private final HashMap<Piece, Position> positions = new HashMap<>();
 
     public final HashSet<Position> camps = new HashSet<>() {
         {
@@ -77,53 +77,11 @@ public class Board {
         }
     };
 
-    public final HashMap<Position, HashSet<Position>> oneStepMoves = new HashMap<>(){
-        {
-            for(int i = 0; i < 13; i++){
-                for(int j = 0; j < 5; j++){
-                    HashSet<Position> set = new HashSet<>();
-                    if(headquarters.contains(new Position(i,j))){
-                        continue;
-                    }
-                    if(i - 1 >= 0 && !mountains.contains(new Position(i - 1, j))){
-                        set.add(new Position(i - 1, j));
-                    }
-                    if(i + 1 < 13 && !mountains.contains(new Position(i + 1, j))){
-                        set.add(new Position(i + 1, j));
-                    }
-                    if(j - 1 >= 0 && !mountains.contains(new Position(i, j - 1))){
-                        set.add(new Position(i, j - 1));
-                    }
-                    if(j + 1 < 5 && !mountains.contains(new Position(i, j + 1))){
-                        set.add(new Position(i, j + 1));
-                    }
-                    if(camps.contains(new Position(i, j))){
-                        set.add(new Position(i - 1, j - 1));
-                        set.add(new Position(i + 1, j - 1));
-                        set.add(new Position(i - 1, j + 1));
-                        set.add(new Position(i + 1, j + 1));
-                    }else{
-                        if(camps.contains(new Position(i - 1, j - 1))){
-                            set.add(new Position(i - 1, j - 1));
-                        }
-                        if(camps.contains(new Position(i + 1, j - 1))){
-                            set.add(new Position(i + 1, j - 1));
-                        }
-                        if(camps.contains(new Position(i - 1, j + 1))){
-                            set.add(new Position(i - 1, j + 1));
-                        }
-                        if(camps.contains(new Position(i + 1, j + 1))){
-                            set.add(new Position(i + 1, j + 1));
-                        }
-                    }
-                    oneStepMoves.put(new Position(i, j), set);
-                }
-            }
-        }
-    };
+    public final HashMap<Position, HashSet<Position>> oneStepMoves = new HashMap<>();
 
     public Board(){
         this.board = new Piece[13][5];
+        buildOneStepMoves();
     }
 
     public Piece getPiece(int x, int y){
@@ -144,6 +102,12 @@ public class Board {
         board[cur.getX()][cur.getY()] = null;
         board[x][y] = piece;
         positions.put(piece, new Position(x,y));
+    }
+
+    public void remove(Piece piece){
+        Position cur = getLocation(piece);
+        board[cur.getX()][cur.getY()] = null;
+        positions.remove(piece);
     }
 
     public HashSet<Position> getRailMoves(Position position){
@@ -239,13 +203,56 @@ public class Board {
         return neighbors;
     }
 
+    private void buildOneStepMoves(){
+        for(int i = 0; i < 13; i++){
+            for(int j = 0; j < 5; j++){
+                HashSet<Position> set = new HashSet<>();
+                if(headquarters.contains(new Position(i,j))){
+                    continue;
+                }
+                if(i - 1 >= 0 && !mountains.contains(new Position(i - 1, j))){
+                    set.add(new Position(i - 1, j));
+                }
+                if(i + 1 < 13 && !mountains.contains(new Position(i + 1, j))){
+                    set.add(new Position(i + 1, j));
+                }
+                if(j - 1 >= 0 && !mountains.contains(new Position(i, j - 1))){
+                    set.add(new Position(i, j - 1));
+                }
+                if(j + 1 < 5 && !mountains.contains(new Position(i, j + 1))){
+                    set.add(new Position(i, j + 1));
+                }
+                if(camps.contains(new Position(i, j))){
+                    set.add(new Position(i - 1, j - 1));
+                    set.add(new Position(i + 1, j - 1));
+                    set.add(new Position(i - 1, j + 1));
+                    set.add(new Position(i + 1, j + 1));
+                }else{
+                    if(camps.contains(new Position(i - 1, j - 1))){
+                        set.add(new Position(i - 1, j - 1));
+                    }
+                    if(camps.contains(new Position(i + 1, j - 1))){
+                        set.add(new Position(i + 1, j - 1));
+                    }
+                    if(camps.contains(new Position(i - 1, j + 1))){
+                        set.add(new Position(i - 1, j + 1));
+                    }
+                    if(camps.contains(new Position(i + 1, j + 1))){
+                        set.add(new Position(i + 1, j + 1));
+                    }
+                }
+                oneStepMoves.put(new Position(i, j), set);
+            }
+        }
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 13; i++){
             for(int j = 0; j < 5; j++){
                 if(board[i][j] == null){
-                    sb.append("_ ");
+                    sb.append(" _  ");
                 }else{
                     sb.append(board[i][j].getLabel());
                     sb.append(" ");

@@ -28,7 +28,36 @@ public class MoveEvent {
     }
 
     private void clash(Piece challenger, Piece challenged){
-
+        if(challenged.isWinCondition()){
+            System.out.println(challenger.getLabel() + " wins");
+            Position temp = board.getLocation(challenged);
+            board.remove(challenged);
+            board.move(temp.getX(), temp.getY(), challenger);
+        }else if(challenger.isBomb() || challenged.isBomb()){
+            System.out.println("Tie");
+            board.remove(challenged);
+            board.remove(challenger);
+        }else if(challenger.getRank() == challenged.getRank()){
+            System.out.println("Tie");
+            board.remove(challenged);
+            board.remove(challenger);
+        }else if(challenger.isCanMine() && challenged.isMine()){
+            System.out.println(challenger.getLabel() + " wins");
+            Position temp = board.getLocation(challenged);
+            board.remove(challenged);
+            board.move(temp.getX(), temp.getY(), challenger);
+        }else if(challenged.isMine()){
+            System.out.println(challenged.getLabel() + " wins");
+            board.remove(challenger);
+        }else if(challenger.getRank() <  challenged.getRank()){
+            System.out.println(challenger.getLabel() + " wins");
+            Position temp = board.getLocation(challenged);
+            board.remove(challenged);
+            board.move(temp.getX(), temp.getY(), challenger);
+        }else if(challenger.getRank() > challenged.getRank()){
+            System.out.println(challenged.getLabel() + " wins");
+            board.remove(challenger);
+        }
     }
 
     private boolean validateMove(){

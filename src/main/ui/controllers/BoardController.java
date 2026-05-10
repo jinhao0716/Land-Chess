@@ -6,8 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.TilePane;
+import main.game.GameInstance;
 import main.game.Piece;
 import main.player.Player;
+
+import java.awt.event.MouseListener;
+import java.util.HashMap;
 
 public class BoardController {
     @FXML
@@ -15,17 +20,110 @@ public class BoardController {
     @FXML
     public GridPane lowerBoard;
     @FXML
-    public GridPane pieceHolder;
+    public TilePane pieceHolder;
+
+    private final HashMap<Button, Piece> buttonsMap = new HashMap<>();
+    Player player1;
+    Player player2;
 
     public void initialize(){
-        Player player = new Player();
-        for(int i = 0; i < 2; i++){
-            for(int j = 0; j < 15; j++){
-                Piece piece = new Piece('1', player);
-                Button temp = new Button(piece.getLabel());
-                temp.getStyleClass().add("piece-button");
-                pieceHolder.add(temp, i, j);
-            }
+        GameInstance gameInstance = new GameInstance();
+        Player[] players = gameInstance.getPlayers();
+        this.player1 = players[0];
+        this.player2 = players[1];
+        addPieceButtons();
+        for(Button button: buttonsMap.keySet()){
+            System.out.println(buttonsMap.get(button).getLabel());
+            button.setOnMouseDragged(e -> {
+                button.setLayoutX(e.getX());
+                button.setLayoutX(e.getY());
+            });
         }
+
+    }
+
+    private void addPieceButtons(){
+
+        Piece piece1 = new Piece('1', player1);
+        Button temp1 = new Button(piece1.getLabel());
+        buttonsMap.put(temp1, piece1);
+        temp1.getStyleClass().add("piece-button");
+        pieceHolder.getChildren().add(temp1);
+
+        Piece piece2 = new Piece('2', player1);
+        Button temp2 = new Button(piece2.getLabel());
+        buttonsMap.put(temp2, piece2);
+        temp2.getStyleClass().add("piece-button");
+        pieceHolder.getChildren().add(temp2);
+
+        for(int i = 0; i < 2; i++){
+            Piece piece3 = new Piece('3', player1);
+            Button temp3 = new Button(piece3.getLabel());
+            buttonsMap.put(temp3, piece3);
+            temp3.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp3);
+        }
+
+        for(int i = 0; i < 2; i++){
+            Piece piece4 = new Piece('4', player1);
+            Button temp4 = new Button(piece4.getLabel());
+            buttonsMap.put(temp4, piece4);
+            temp4.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp4);
+        }
+
+        for(int i = 0; i < 2; i++){
+            Piece piece5 = new Piece('5', player1);
+            Button temp5 = new Button(piece5.getLabel());
+            buttonsMap.put(temp5, piece5);
+            temp5.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp5);
+        }
+
+        for(int i = 0; i < 2; i++){
+            Piece piece6 = new Piece('6', player1);
+            Button temp6 = new Button(piece6.getLabel());
+            buttonsMap.put(temp6, piece6);
+            temp6.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp6);
+        }
+
+        for(int i = 0; i < 3; i++){
+            Piece piece7 = new Piece('7', player1);
+            Button temp7 = new Button(piece7.getLabel());
+            buttonsMap.put(temp7, piece7);
+            temp7.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp7);
+        }
+
+        for(int i = 0; i < 3; i++){
+            Piece piece8 = new Piece('8', player1);
+            Button temp8 = new Button(piece8.getLabel());
+            buttonsMap.put(temp8, piece8);
+            temp8.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp8);
+        }
+
+        for(int i = 0; i < 3; i++){
+            Piece piece9 = new Piece('9', player1);
+            Button temp9 = new Button(piece9.getLabel());
+            buttonsMap.put(temp9, piece9);
+            temp9.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(temp9);
+        }
+
+        for(int i = 0; i < 2; i++){
+            Piece pieceB = new Piece('B', player1);
+            Button tempB = new Button(pieceB.getLabel());
+            buttonsMap.put(tempB, pieceB);
+            tempB.getStyleClass().add("piece-button");
+            pieceHolder.getChildren().add(tempB);
+        }
+
+        Piece pieceF = new Piece('F', player1);
+        Button tempF = new Button(pieceF.getLabel());
+        buttonsMap.put(tempF, pieceF);
+        tempF.getStyleClass().add("piece-button");
+        pieceHolder.getChildren().add(tempF);
     }
 }
