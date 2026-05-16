@@ -44,16 +44,16 @@ public class BoardController {
         buttonsMap.put(temp1, piece1);
         piecesMap.put(piece1, temp1);
         temp1.getStyleClass().add("piece-button");
-        upperBoard.add(temp1, 0, 0);
-        board.add(0,0,piece1);
+        lowerBoard.add(temp1, 0, 11);
+        board.add(11,0,piece1);
 
         Piece piece2 = new Piece('1', player1);
         Button temp2 = new Button(piece2.getLabel());
         buttonsMap.put(temp2, piece2);
         piecesMap.put(piece2, temp2);
         temp2.getStyleClass().add("piece-button");
-        upperBoard.add(temp2, 0, 1);
-        board.add(1,0,piece2);
+        lowerBoard.add(temp2, 1, 11);
+        board.add(11,1,piece2);
 
         for(Button button: buttonsMap.keySet()){
             System.out.println(buttonsMap.get(button).getLabel());

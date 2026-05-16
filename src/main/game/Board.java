@@ -183,11 +183,11 @@ public class Board{
         List<Position> neighbors = new ArrayList<>();
         int x = position.getX(), y = position.getY();
         if (x - 1 >= 0 && rails.contains(new Position(x - 1, y))){
-            if(!(x == 6 && y != 0 && y != 2 && y != 4))  // crossing river upward
+            if(!(x == 6 && y != 0 && y != 2 && y != 4))
                 neighbors.add(new Position(x - 1, y));
         }
         if (x + 1 < 12 && rails.contains(new Position(x + 1, y))){
-            if(!(x == 5 && y != 0 && y != 2 && y != 4))  // crossing river downward
+            if(!(x == 5 && y != 0 && y != 2 && y != 4))
                 neighbors.add(new Position(x + 1, y));
         }
         if (y - 1 >= 0 && rails.contains(new Position(x, y - 1)))

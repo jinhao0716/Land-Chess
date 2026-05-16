@@ -13,14 +13,13 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            // Load root layout from fxml file.
+
             FXMLLoader loader = new FXMLLoader();
 
             loader.setLocation(this.getClass().getResource("/fxml/board.fxml"));
 
             Parent parent = loader.load();
 
-            // Show the scene containing the root layout.
             Scene scene = new Scene(parent);
             stage.setScene(scene);
             stage.setTitle("陆战棋");

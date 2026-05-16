@@ -2,6 +2,8 @@ package main.game;
 
 import main.player.Player;
 
+import java.util.ArrayList;
+
 public class MoveEvent {
     Board board;
     Piece piece;
