@@ -8,6 +8,13 @@
     -fx-border-width: 2;
 }
 
+.selected-button{
+    -fx-background-color: #1AA5DB;
+    -fx-text-fill: white;
+    -fx-border-color: #0895D1;
+    -fx-border-width: 3;
+}
+
 #fullBoard{
     -fx-background-image: url("../images/luzhanqiboard.png");
     -fx-background-size: 100% 100%;

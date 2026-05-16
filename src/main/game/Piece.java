@@ -10,9 +10,9 @@ public class Piece {
     private boolean canMove = true;
     private boolean mine = false;
     private boolean bomb = false;
-    private int rankVal;
+    private final int rankVal;
     private String label = "";
-    private Player owner;
+    private final Player owner;
 
     public Piece(Character rank, Player owner) {
         this.owner = owner;
