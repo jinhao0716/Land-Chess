@@ -9,6 +9,8 @@ public class MoveEvent {
     Position position2;
     Player movePlayer;
     Player recievePlayer;
+    public final boolean isValid;
+
     public MoveEvent(Player movePlayer, Player recievePlayer, Board board, Piece piece, Position position) {
         this.board = board;
         this.piece = piece;
@@ -16,7 +18,8 @@ public class MoveEvent {
         this.position2 = position;
         this.movePlayer = movePlayer;
         this.recievePlayer = recievePlayer;
-        if(validateMove()){
+        this.isValid = validateMove();
+        if(isValid){
             if(board.getPiece(position.getX(), position.getY()) == null){
                 board.move(position.getX(), position.getY(), piece);
             }else{
@@ -49,7 +52,7 @@ public class MoveEvent {
         }else if(challenged.isMine()){
             System.out.println(challenged.getLabel() + " wins");
             board.remove(challenger);
-        }else if(challenger.getRank() <  challenged.getRank()){
+        }else if(challenger.getRank() < challenged.getRank()){
             System.out.println(challenger.getLabel() + " wins");
             Position temp = board.getLocation(challenged);
             board.remove(challenged);
@@ -62,9 +65,6 @@ public class MoveEvent {
 
     private boolean validateMove(){
         if(!piece.isCanMove()){
-            return false;
-        }
-        if(board.mountains.contains(position2)){
             return false;
         }
         if(board.headquarters.contains(position1)){
