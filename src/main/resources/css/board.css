@@ -15,6 +15,28 @@
     -fx-border-width: 3;
 }
 
+.empty-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.camp-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-radius: 100;
+    -fx-background-radius: 100;
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+    -fx-max-width: 50;
+    -fx-max-height: 50;
+    -fx-pref-width: 50;
+    -fx-pref-height: 50;
+}
+
 #fullBoard{
     -fx-background-image: url("../images/luzhanqiboard.png");
     -fx-background-size: 100% 100%;

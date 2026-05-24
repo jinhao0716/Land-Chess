@@ -6,11 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-import main.game.Board;
-import main.game.GameInstance;
-import main.game.MoveEvent;
-import main.game.Piece;
+import main.game.*;
 import main.player.Player;
 
 import java.awt.event.MouseListener;
@@ -38,9 +36,7 @@ public class BoardController {
         this.player2 = players[1];
         this.board = gameInstance.getBoard();
         addPieceButtons();
-        board.setOnBoardChanged(() -> {
-            refreshBoardUI();
-        });
+        board.setOnBoardChanged(this::refreshBoardUI);
 
         Piece piece1 = new Piece('1', player2);
         Button temp1 = new Button(piece1.getLabel());
@@ -50,7 +46,7 @@ public class BoardController {
         lowerBoard.add(temp1, 0, 11);
         board.add(11,0,piece1);
 
-        Piece piece2 = new Piece('2', player1);
+        Piece piece2 = new Piece('9', player1);
         Button temp2 = new Button(piece2.getLabel());
         buttonsMap.put(temp2, piece2);
         piecesMap.put(piece2, temp2);
@@ -80,6 +76,7 @@ public class BoardController {
                 }
             });
         }
+        refreshBoardUI();
     }
 
     private void addPieceButtons(){
@@ -185,15 +182,73 @@ public class BoardController {
             for(int j = 0; j < 5; j++){
                 if(board.getPiece(i,j) != null){
                     Button temp = piecesMap.get(board.getPiece(i,j));
+                    if(board.camps.contains(new Position(i, j))){
+                        Button temp1 = new Button();
+                        Position tempPos = new Position(i, j);
+                        temp1.getStyleClass().add("camp-button");
+                        StackPane stack = new StackPane(temp, temp1);
+                        upperBoard.add(stack, j, i);
+                        temp1.setOnMouseClicked(event -> {
+                            if(currentPiece != null){
+                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            }
+                        });
+                    }else{
+                        upperBoard.add(temp, j, i);
+                    }
+                }else{
+                    Button temp = new Button();
+                    Position tempPos = new Position(i, j);
+                    if(board.camps.contains(tempPos)){
+                        temp.getStyleClass().add("camp-button");
+                        temp.setText("行营");
+                    }else{
+                        temp.getStyleClass().add("empty-button");
+                        temp.setText("兵站");
+                    }
+                    temp.setOnMouseClicked(event -> {
+                        if(currentPiece != null){
+                            new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                        }
+                    });
                     upperBoard.add(temp, j, i);
                 }
             }
 
         }
-        for(int i = 7; i < 12; i++){
+        for(int i = 0; i < 6; i++){
             for(int j = 0; j < 5; j++){
-                if(board.getPiece(i,j) != null){
-                    Button temp = piecesMap.get(board.getPiece(i,j));
+                if(board.getPiece(i + 6,j) != null){
+                    Button temp = piecesMap.get(board.getPiece(i + 6,j));
+                    if(board.camps.contains(new Position(i + 6, j))){
+                        Button temp1 = new Button();
+                        Position tempPos = new Position(i + 6, j);
+                        temp1.getStyleClass().add("camp-button");
+                        StackPane stack = new StackPane(temp, temp1);
+                        lowerBoard.add(stack, j, i);
+                        temp1.setOnMouseClicked(event -> {
+                            if(currentPiece != null){
+                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            }
+                        });
+                    }else{
+                        lowerBoard.add(temp, j, i);
+                    }
+                }else{
+                    Button temp = new Button();
+                    Position tempPos = new Position(i + 6, j);
+                    if(board.camps.contains(tempPos)){
+                        temp.getStyleClass().add("camp-button");
+                        temp.setText("行营");
+                    }else{
+                        temp.getStyleClass().add("empty-button");
+                        temp.setText("兵站");
+                    }
+                    temp.setOnMouseClicked(event -> {
+                        if(currentPiece != null){
+                            new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                        }
+                    });
                     lowerBoard.add(temp, j, i);
                 }
             }
