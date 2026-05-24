@@ -5,6 +5,7 @@ import java.util.*;
 public class Board{
     private final Piece[][] board;
     private final HashMap<Piece, Position> positions = new HashMap<>();
+    private Runnable onBoardChanged;
 
     public final HashSet<Position> camps = new HashSet<>() {
         {
@@ -92,12 +93,22 @@ public class Board{
         board[cur.getX()][cur.getY()] = null;
         board[x][y] = piece;
         positions.put(piece, new Position(x,y));
+        if (onBoardChanged != null) {
+            onBoardChanged.run();
+        }
+    }
+
+    public void setOnBoardChanged(Runnable onBoardChanged) {
+        this.onBoardChanged = onBoardChanged;
     }
 
     public void remove(Piece piece){
         Position cur = getLocation(piece);
         board[cur.getX()][cur.getY()] = null;
         positions.remove(piece);
+        if (onBoardChanged != null) {
+            onBoardChanged.run();
+        }
     }
 
     public HashSet<Position> getRailMoves(Position position){

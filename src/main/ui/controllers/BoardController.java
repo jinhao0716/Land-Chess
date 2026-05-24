@@ -38,6 +38,9 @@ public class BoardController {
         this.player2 = players[1];
         this.board = gameInstance.getBoard();
         addPieceButtons();
+        board.setOnBoardChanged(() -> {
+            refreshBoardUI();
+        });
 
         Piece piece1 = new Piece('1', player2);
         Button temp1 = new Button(piece1.getLabel());
@@ -47,13 +50,13 @@ public class BoardController {
         lowerBoard.add(temp1, 0, 11);
         board.add(11,0,piece1);
 
-        Piece piece2 = new Piece('1', player1);
+        Piece piece2 = new Piece('2', player1);
         Button temp2 = new Button(piece2.getLabel());
         buttonsMap.put(temp2, piece2);
         piecesMap.put(piece2, temp2);
         temp2.getStyleClass().add("piece-button");
-        lowerBoard.add(temp2, 1, 11);
-        board.add(11,1,piece2);
+        lowerBoard.add(temp2, 0, 10);
+        board.add(10,0,piece2);
 
         for(Button button: buttonsMap.keySet()){
             System.out.println(buttonsMap.get(button).getLabel());
@@ -173,5 +176,28 @@ public class BoardController {
         piecesMap.put(pieceF, tempF);
         tempF.getStyleClass().add("piece-button");
         pieceHolder.getChildren().add(tempF);
+    }
+
+    private void refreshBoardUI(){
+        upperBoard.getChildren().clear();
+        lowerBoard.getChildren().clear();
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 5; j++){
+                if(board.getPiece(i,j) != null){
+                    Button temp = piecesMap.get(board.getPiece(i,j));
+                    upperBoard.add(temp, j, i);
+                }
+            }
+
+        }
+        for(int i = 7; i < 12; i++){
+            for(int j = 0; j < 5; j++){
+                if(board.getPiece(i,j) != null){
+                    Button temp = piecesMap.get(board.getPiece(i,j));
+                    lowerBoard.add(temp, j, i);
+                }
+            }
+
+        }
     }
 }
