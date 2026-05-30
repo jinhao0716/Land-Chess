@@ -86,6 +86,9 @@ public class Board{
     public void add(int x, int y, Piece piece){
         board[x][y] = piece;
         positions.put(piece, new Position(x,y));
+        if (onBoardChanged != null) {
+            onBoardChanged.run();
+        }
     }
 
     public void move(int x, int y, Piece piece){

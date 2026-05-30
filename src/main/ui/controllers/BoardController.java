@@ -197,12 +197,24 @@ public class BoardController {
                         Position tempPos = new Position(i, j);
                         temp1.getStyleClass().add("camp-button");
                         StackPane stack = new StackPane(temp, temp1);
-                        upperBoard.add(stack, j, i);
-                        temp1.setOnMouseClicked(event -> {
-                            if(currentPiece != null){
-                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                        temp1.setOnMouseClicked(event -> {if(currentPiece != null && currentPiece.equals(buttonsMap.get(temp))){
+                            piecesMap.get(currentPiece).getStyleClass().remove("selected-button");
+                            currentPiece = null;
+                        }else{
+                            if(buttonsMap.get(temp).getOwner().equals(player2)){
+                                if(currentPiece != null){
+                                    new MoveEvent(player1, player2, board, currentPiece, board.getLocation(buttonsMap.get(temp)));
+                                }
+                            }else if(currentPiece == null){
+                                currentPiece = buttonsMap.get(temp);
+                                temp.getStyleClass().add("selected-button");
+                            }else{
+                                piecesMap.get(currentPiece).getStyleClass().remove("selected-button");
+                                temp.getStyleClass().add("selected-button");
+                                currentPiece = buttonsMap.get(temp);
                             }
-                        });
+                        }});
+                        upperBoard.add(stack, j, i);
                     }else{
                         upperBoard.add(temp, j, i);
                     }
@@ -218,7 +230,11 @@ public class BoardController {
                     }
                     temp.setOnMouseClicked(event -> {
                         if(currentPiece != null){
-                            new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            if(pieceHolder.getChildren().contains(piecesMap.get(currentPiece))){
+                                board.add(tempPos.getX(), tempPos.getY(), currentPiece);
+                            }else{
+                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            }
                         }
                     });
                     upperBoard.add(temp, j, i);
@@ -235,12 +251,24 @@ public class BoardController {
                         Position tempPos = new Position(i + 6, j);
                         temp1.getStyleClass().add("camp-button");
                         StackPane stack = new StackPane(temp, temp1);
-                        lowerBoard.add(stack, j, i);
-                        temp1.setOnMouseClicked(event -> {
-                            if(currentPiece != null){
-                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                        temp1.setOnMouseClicked(event -> {if(currentPiece != null && currentPiece.equals(buttonsMap.get(temp))){
+                            piecesMap.get(currentPiece).getStyleClass().remove("selected-button");
+                            currentPiece = null;
+                        }else{
+                            if(buttonsMap.get(temp).getOwner().equals(player2)){
+                                if(currentPiece != null){
+                                    new MoveEvent(player1, player2, board, currentPiece, board.getLocation(buttonsMap.get(temp)));
+                                }
+                            }else if(currentPiece == null){
+                                currentPiece = buttonsMap.get(temp);
+                                temp.getStyleClass().add("selected-button");
+                            }else{
+                                piecesMap.get(currentPiece).getStyleClass().remove("selected-button");
+                                temp.getStyleClass().add("selected-button");
+                                currentPiece = buttonsMap.get(temp);
                             }
-                        });
+                        }});
+                        lowerBoard.add(stack, j, i);
                     }else{
                         lowerBoard.add(temp, j, i);
                     }
@@ -256,7 +284,11 @@ public class BoardController {
                     }
                     temp.setOnMouseClicked(event -> {
                         if(currentPiece != null){
-                            new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            if(pieceHolder.getChildren().contains(piecesMap.get(currentPiece))){
+                                board.add(tempPos.getX(), tempPos.getY(), currentPiece);
+                            }else{
+                                new MoveEvent(player1, player2, board, currentPiece, tempPos);
+                            }
                         }
                     });
                     lowerBoard.add(temp, j, i);
