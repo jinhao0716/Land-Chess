@@ -60,7 +60,7 @@
       </SplitPane>
    </center>
    <right>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="sidePanel" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>
             <TilePane fx:id="pieceHolder" hgap="20.0" vgap="20.0">
                <padding>

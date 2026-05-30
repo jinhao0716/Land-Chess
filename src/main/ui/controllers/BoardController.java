@@ -21,6 +21,8 @@ public class BoardController {
     public GridPane lowerBoard;
     @FXML
     public TilePane pieceHolder;
+    @FXML
+    public ScrollPane sidePanel;
 
     private final HashMap<Button, Piece> buttonsMap = new HashMap<>();
     private final HashMap<Piece, Button> piecesMap = new HashMap<>();
@@ -37,6 +39,14 @@ public class BoardController {
         this.board = gameInstance.getBoard();
         addPieceButtons();
         board.setOnBoardChanged(this::refreshBoardUI);
+
+        sidePanel.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                sidePanel.prefWidthProperty().bind(newScene.widthProperty().multiply(0.08));
+                sidePanel.minWidthProperty().bind(newScene.widthProperty().multiply(0.08));
+                sidePanel.maxWidthProperty().bind(newScene.widthProperty().multiply(0.08));
+            }
+        });
 
         Piece piece1 = new Piece('1', player2);
         Button temp1 = new Button(piece1.getLabel());
