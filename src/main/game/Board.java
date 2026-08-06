@@ -7,6 +7,7 @@ public class Board{
     private final HashMap<Piece, Position> positions = new HashMap<>();
     private Runnable onBoardChanged;
 
+    //holds coordinates of camps on the game board
     public final HashSet<Position> camps = new HashSet<>() {
         {
             add(new Position(2, 1));
@@ -22,6 +23,7 @@ public class Board{
         }
     };
 
+    //holds coordinates of rails on the game board
     public final HashSet<Position> rails = new HashSet<>() {
         {
             add(new Position(1, 0));
@@ -59,6 +61,7 @@ public class Board{
         }
     };
 
+    //holds coordinates of headquarter tiles on the game board
     public final HashSet<Position> headquarters = new HashSet<>() {
         {
             add(new Position(0, 1));
@@ -68,17 +71,32 @@ public class Board{
         }
     };
 
+    //holds set of possible one-step moves from a certain position on the game board
     public final HashMap<Position, HashSet<Position>> oneStepMoves = new HashMap<>();
 
+    //board class constructor
     public Board(){
+        //the board is a 12x5 array of Pieces
         this.board = new Piece[12][5];
+        //create and store list of all possible one-step moves for every position of the board
         buildOneStepMoves();
     }
 
+    /**
+     * Function for returning the piece located in the x and y coordinates on the game board
+     * @param x x coordinate of the Piece to return
+     * @param y y coordinate of the Piece to return
+     * @return The Piece that is located in position (x,y), or returns null if no Piece is present
+     */
     public Piece getPiece(int x, int y){
         return board[x][y];
     }
 
+    /**
+     * Function for returning the Position for a given Piece on the gameboard
+     * @param piece Piece to find
+     * @return The Position of the Piece
+     */
     public Position getLocation(Piece piece){
         return positions.get(piece);
     }
