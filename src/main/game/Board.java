@@ -101,6 +101,12 @@ public class Board{
         return positions.get(piece);
     }
 
+    /**
+     * Function for adding a Piece to a designated location on the gameboard
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param piece Piece to place at designated location
+     */
     public void add(int x, int y, Piece piece){
         board[x][y] = piece;
         positions.put(piece, new Position(x,y));
@@ -109,6 +115,12 @@ public class Board{
         }
     }
 
+    /**
+     * Move a Piece from current location to new location (x, y)
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param piece Piece to move
+     */
     public void move(int x, int y, Piece piece){
         Position cur = getLocation(piece);
         board[cur.getX()][cur.getY()] = null;
@@ -119,10 +131,18 @@ public class Board{
         }
     }
 
+    /**
+     * Registers a callback to be executed whenever the board is updated
+     * @param onBoardChanged callback to run
+     */
     public void setOnBoardChanged(Runnable onBoardChanged) {
         this.onBoardChanged = onBoardChanged;
     }
 
+    /**
+     * Remove a Piece from the board
+     * @param piece Piece to remove
+     */
     public void remove(Piece piece){
         Position cur = getLocation(piece);
         board[cur.getX()][cur.getY()] = null;
@@ -132,6 +152,11 @@ public class Board{
         }
     }
 
+    /**
+     * Returns the HashSet containing the list of valid rail moves from designated Position
+     * @param position Position of the move origin
+     * @return HashSet containing list of valid rail moves
+     */
     public HashSet<Position> getRailMoves(Position position){
         HashSet<Position> set = new HashSet<>();
         int x = position.getX() + 1;
@@ -189,6 +214,11 @@ public class Board{
         return set;
     }
 
+    /**
+     * Returns the HashSet containing the list of valid engineer moves from designated Position
+     * @param position Position of move origin
+     * @return HashSet containing list of valid engineer moves
+     */
     public HashSet<Position> getEngMoves(Position position) {
         HashSet<Position> engMoves = new HashSet<>();
         HashSet<Position> visited = new HashSet<>();
@@ -211,6 +241,11 @@ public class Board{
         return engMoves;
     }
 
+    /**
+     * Helper function for getEngMoves, returns valid adjacent moves from specified Position
+     * @param position Position of move origin
+     * @return List of valid adjacent moves
+     */
     private List<Position> getAdjHelper(Position position){
         List<Position> neighbors = new ArrayList<>();
         int x = position.getX(), y = position.getY();
