@@ -1,3 +1,10 @@
+/**
+ * Class for managing the game board, includes info on board size, piece locations, valid movement data, etc.
+ * @Author: Jin Hao Fan
+ * @Email: jhfan0716@gmail.com
+ * @Date: Sept. 12, 2026
+ */
+
 package main.game;
 
 import java.util.*;
@@ -264,6 +271,9 @@ public class Board{
         return neighbors;
     }
 
+    /**
+     * Sets up the HashMap containing the list of valid one-step moves from every Position on the board
+     */
     private void buildOneStepMoves(){
         for(int i = 0; i < 12; i++){
             for(int j = 0; j < 5; j++){
@@ -305,6 +315,10 @@ public class Board{
         }
     }
 
+    /**
+     * Returns a string with board info containing Piece types and locations
+     * @return The String containing board data
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
